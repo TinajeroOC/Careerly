@@ -7,6 +7,7 @@ import { Toaster } from '@/components/ui/Toaster'
 import { siteConfig } from '@/config/site'
 import { AppNavbar } from '@/components/layout/AppNavbar'
 import { createClient } from '@/lib/supabase/server'
+import { ThemeProvider } from '@/components/providers/ThemeProvider'
 
 interface RootLayoutProps {
   readonly children: React.ReactNode
@@ -23,11 +24,18 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   const userResponse = await supabase.auth.getUser()
 
   return (
-    <html lang='en'>
+    <html lang='en' suppressHydrationWarning>
       <body className={GeistSans.className}>
-        <AppNavbar user={userResponse.data.user} />
-        <div className='mx-auto w-full max-w-screen-2xl'>{children}</div>
-        <Toaster />
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AppNavbar user={userResponse.data.user} />
+          <div className='mx-auto w-full max-w-screen-2xl'>{children}</div>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   )

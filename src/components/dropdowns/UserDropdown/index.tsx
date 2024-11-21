@@ -42,8 +42,8 @@ export function UserDropdown({ user }: UserDropdownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className='h-10 w-10 rounded-sm'>
-          <AvatarFallback className='select-none'>
+        <Avatar className='h-10 w-10 rounded-md'>
+          <AvatarFallback className='select-none rounded-md'>
             {user.user_metadata.first_name[0].toUpperCase()}
           </AvatarFallback>
         </Avatar>

@@ -1,5 +1,6 @@
 'use client'
 
+import { ThemeDropdown } from '@/components/dropdowns/ThemeDropdown'
 import { UserDropdown } from '@/components/dropdowns/UserDropdown'
 import { Logo } from '@/components/misc/Logo'
 import { Button } from '@/components/ui/Button'
@@ -31,6 +32,7 @@ export function AppNavbar({ user }: AppNavbarProps) {
           <Logo disableText={isDesktop ? false : true} />
         </div>
         <div className='flex flex-grow items-center justify-end gap-2'>
+          <ThemeDropdown />
           {user ? (
             <UserDropdown user={user} />
           ) : (
