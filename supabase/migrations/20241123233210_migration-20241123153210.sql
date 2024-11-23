@@ -93,10 +93,10 @@ SET default_table_access_method = "heap";
 
 CREATE TABLE IF NOT EXISTS "public"."profiles" (
     "id" "uuid" NOT NULL,
-    "first_name" "text",
-    "last_name" "text",
-    "headline" "text",
-    "about" "text",
+    "first_name" "text" DEFAULT ''::"text" NOT NULL,
+    "last_name" "text" DEFAULT ''::"text" NOT NULL,
+    "headline" "text" DEFAULT ''::"text" NOT NULL,
+    "about" "text" DEFAULT ''::"text" NOT NULL,
     "banner_url" "text",
     "picture_url" "text",
     CONSTRAINT "profiles_about_check" CHECK (("length"("about") < 2600)),
@@ -414,6 +414,10 @@ RESET ALL;
 --
 -- Dumped schema changes for auth and storage
 --
+
+CREATE OR REPLACE TRIGGER "on_auth_user_created" AFTER INSERT ON "auth"."users" FOR EACH ROW EXECUTE FUNCTION "public"."handle_new_user"();
+
+
 
 CREATE POLICY "Give authenticated users access to their own private folder" ON "storage"."objects" FOR INSERT TO "authenticated" WITH CHECK ((("bucket_id" = 'Media'::"text") AND (("storage"."foldername"("name"))[1] = ( SELECT ("auth"."uid"())::"text" AS "uid"))));
 
