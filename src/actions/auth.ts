@@ -15,21 +15,19 @@ export type SignUpData = {
 export async function signUp({ firstName, lastName, email, password }: SignUpData) {
   const supabase = await createClient()
 
-  const { error } = await supabase.auth.signUp({
+  const { error: signUpError } = await supabase.auth.signUp({
     email,
     password,
     options: {
       data: {
+        full_name: `${firstName} ${lastName}`,
         first_name: firstName,
         last_name: lastName,
-        display_name: `${firstName} ${lastName}`,
       },
     },
   })
 
-  if (error) {
-    throw new Error(error.message)
-  }
+  if (signUpError) throw signUpError
 
   revalidatePath('/', 'layout')
   redirect('/signin')
@@ -43,14 +41,12 @@ export type SignInData = {
 export async function signIn({ email, password }: SignInData) {
   const supabase = await createClient()
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const { error: signInError } = await supabase.auth.signInWithPassword({
     email,
     password,
   })
 
-  if (error) {
-    throw new Error(error.message)
-  }
+  if (signInError) throw signInError
 
   revalidatePath('/', 'layout')
   redirect('/')

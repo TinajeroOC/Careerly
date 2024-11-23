@@ -24,11 +24,17 @@ export function SignUpForm() {
   const [loading, setLoading] = useState<boolean>(false)
   const form = useForm<SignUpInput>({
     resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+    },
   })
 
   const onSubmit: SubmitHandler<SignUpInput> = async (data) => {
-    setLoading(true)
     try {
+      setLoading(true)
       await signUp(data)
     } catch (error) {
       form.setError('root', { message: (error as Error).message })
@@ -60,7 +66,7 @@ export function SignUpForm() {
               <FormItem>
                 <FormLabel>First Name</FormLabel>
                 <FormControl>
-                  <Input {...field} value={field.value ?? ''} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -73,7 +79,7 @@ export function SignUpForm() {
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
                 <FormControl>
-                  <Input {...field} value={field.value ?? ''} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -87,7 +93,7 @@ export function SignUpForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input {...field} value={field.value ?? ''} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -100,7 +106,7 @@ export function SignUpForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <PasswordInput {...field} value={field.value ?? ''} />
+                <PasswordInput {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

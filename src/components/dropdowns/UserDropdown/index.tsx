@@ -6,7 +6,7 @@ import { LogOut, Settings } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
-import { Avatar, AvatarFallback } from '@/components/ui/Avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,6 +43,7 @@ export function UserDropdown({ user }: UserDropdownProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className='h-10 w-10 rounded-md'>
+          <AvatarImage src={user.user_metadata.picture_url} />
           <AvatarFallback className='select-none rounded-md'>
             {user.user_metadata.first_name[0].toUpperCase()}
           </AvatarFallback>
@@ -51,13 +52,14 @@ export function UserDropdown({ user }: UserDropdownProps) {
       <DropdownMenuContent align='end' className='min-w-64'>
         <DropdownMenuLabel>
           <div className='flex items-center gap-3 py-1.5 text-left text-sm'>
-            <Avatar className='h-12 w-12 rounded-sm'>
+            <Avatar className='h-12 w-12 rounded-md'>
+              <AvatarImage src={user.user_metadata.picture_url} />
               <AvatarFallback className='select-none'>
                 {user.user_metadata.first_name[0].toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <div className='grid flex-1 text-left text-sm'>
-              <span className='truncate font-semibold'>{user.user_metadata.display_name}</span>
+            <div className='grid text-left text-sm'>
+              <span className='truncate font-semibold'>{user.user_metadata.full_name}</span>
               <span className='truncate text-xs font-normal text-muted-foreground'>
                 {user.email}
               </span>
