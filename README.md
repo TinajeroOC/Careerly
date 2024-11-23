@@ -36,16 +36,22 @@ npm i
 5. Start local Supabase server
 
 ```bash
-npm run supabase:Start
+npm run supabase:start
 ```
 
 > Make sure Docker Desktop is running in the background.
 
-6. Create `.env.local`
+6. Apply migrations
+
+```bash
+npm run supabase:reset
+```
+
+7. Create `.env.local`
 
    - Update `NEXT_PUBLIC_SUPABASE_URL` with `API URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` with `anon key`. These values are printed in the terminal when starting the local Supabase server.
 
-7. Start Next.js server
+8. Start Next.js server
 
 ```bash
 npm run dev
