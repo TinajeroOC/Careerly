@@ -1,6 +1,7 @@
-import { siteConfig } from '@/config/site'
 import { Flower } from 'lucide-react'
 import Link from 'next/link'
+
+import { siteConfig } from '@/config/site'
 
 interface LogoProps {
   disableText?: boolean

@@ -1,14 +1,15 @@
 'use client'
 
+import { User } from '@supabase/supabase-js'
+import { User2Icon } from 'lucide-react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
 import { ThemeDropdown } from '@/components/dropdowns/ThemeDropdown'
 import { UserDropdown } from '@/components/dropdowns/UserDropdown'
 import { Logo } from '@/components/misc/Logo'
 import { Button } from '@/components/ui/Button'
 import { useMediaQuery } from '@/hooks/use-media-query'
-import { User } from '@supabase/supabase-js'
-import { User2Icon } from 'lucide-react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 
 const desktop = '(min-width: 768px)'
 

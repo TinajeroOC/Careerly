@@ -3,11 +3,11 @@ import './globals.css'
 import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
 
+import { AppNavbar } from '@/components/layout/AppNavbar'
+import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { Toaster } from '@/components/ui/Toaster'
 import { siteConfig } from '@/config/site'
-import { AppNavbar } from '@/components/layout/AppNavbar'
 import { createClient } from '@/lib/supabase/server'
-import { ThemeProvider } from '@/components/providers/ThemeProvider'
 
 interface RootLayoutProps {
   readonly children: React.ReactNode

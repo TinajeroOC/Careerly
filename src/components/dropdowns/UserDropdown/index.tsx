@@ -1,9 +1,12 @@
 'use client'
 
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
+import { User } from '@supabase/supabase-js'
 import { LogOut, Settings } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
+import { Avatar, AvatarFallback } from '@/components/ui/Avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,11 +14,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '@/components/ui/DropdownMenu'
-import { User } from '@supabase/supabase-js'
-import { createClient } from '@/lib/supabase/client'
-import { Avatar, AvatarFallback } from '@/components/ui/Avatar'
 import { useToast } from '@/hooks/use-toast'
-import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
 
 interface UserDropdownProps {
   user: User
