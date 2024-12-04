@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { createClient } from '@/lib/supabase/server'
+import { generateRandomNumbers } from '@/lib/utils'
 
 export type SignUpData = {
   firstName: string
@@ -23,6 +24,7 @@ export async function signUp({ firstName, lastName, email, password }: SignUpDat
         full_name: `${firstName} ${lastName}`,
         first_name: firstName,
         last_name: lastName,
+        vanity_url: `${firstName}-${lastName}-${generateRandomNumbers()}`.toLowerCase(),
       },
     },
   })
