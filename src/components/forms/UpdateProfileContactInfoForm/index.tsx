@@ -6,22 +6,21 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
+import { updateProfileContactInfo } from '@/actions/user'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/Form'
 import { Input } from '@/components/ui/Input'
+import { InputPhone } from '@/components/ui/InputPhone'
 import { createClient } from '@/lib/supabase/client'
 import { ProfileContactInfoInput, profileContactInfoSchema } from '@/lib/validations/user'
-import { InputPhone } from '@/components/ui/InputPhone'
-import { updateProfileContactInfo } from '@/actions/user'
 
 export function UpdateProfileContactInfoForm() {
   const [loading, setLoading] = useState<boolean>(false)
@@ -46,7 +45,7 @@ export function UpdateProfileContactInfoForm() {
       return {
         publicEmail: profile.public_email,
         publicPhoneNumber: profile.public_phone_number,
-        publicWebsiteUrl: profile.public_website_url
+        publicWebsiteUrl: profile.public_website_url,
       }
     },
   })

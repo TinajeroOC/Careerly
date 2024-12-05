@@ -33,6 +33,59 @@ export type Database = {
         }
         Relationships: []
       }
+      profile_experiences: {
+        Row: {
+          active_role: boolean
+          company_name: string
+          created_at: string
+          description: string
+          employment_type: Database['public']['Enums']['employment_type']
+          end_date: string | null
+          id: string
+          location: string
+          location_type: Database['public']['Enums']['location_type']
+          start_date: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          active_role?: boolean
+          company_name?: string
+          created_at?: string
+          description?: string
+          employment_type?: Database['public']['Enums']['employment_type']
+          end_date?: string | null
+          id?: string
+          location?: string
+          location_type?: Database['public']['Enums']['location_type']
+          start_date: string
+          title?: string
+          user_id?: string
+        }
+        Update: {
+          active_role?: boolean
+          company_name?: string
+          created_at?: string
+          description?: string
+          employment_type?: Database['public']['Enums']['employment_type']
+          end_date?: string | null
+          id?: string
+          location?: string
+          location_type?: Database['public']['Enums']['location_type']
+          start_date?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'profile_experiences_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       profiles: {
         Row: {
           about: string
@@ -83,7 +136,15 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      employment_type:
+        | 'Full-time'
+        | 'Part-time'
+        | 'Internship'
+        | 'Contract'
+        | 'Seasonal'
+        | 'Freelance'
+        | 'Self-employed'
+      location_type: 'Remote' | 'On-site' | 'Hybrid'
     }
     CompositeTypes: {
       [_ in never]: never

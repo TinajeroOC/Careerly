@@ -22,7 +22,7 @@ export function ProfileAboutCard({ profile, isEditable }: ProfileAboutCardProps)
         <div className='flex items-center'>
           <CardTitle className='flex-grow'>About</CardTitle>
           {isEditable && (
-            <Link href={`${pathname}/update-about`}>
+            <Link href={`${pathname}/update-about`} scroll={false}>
               <Button size='icon' variant='ghost'>
                 <Edit />
               </Button>

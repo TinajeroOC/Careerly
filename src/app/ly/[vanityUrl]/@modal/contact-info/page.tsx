@@ -1,5 +1,5 @@
-import { ProfileContactInfoModal } from "@/components/modals/ProfileContactInfoModal";
-import { createClient } from "@/lib/supabase/server";
+import { ProfileContactInfoModal } from '@/components/modals/ProfileContactInfoModal'
+import { createClient } from '@/lib/supabase/server'
 
 interface ProfileContactInfoPageProps {
   params: Promise<{ vanityUrl: string }>

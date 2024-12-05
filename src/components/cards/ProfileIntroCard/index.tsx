@@ -33,7 +33,7 @@ export function ProfileIntroCard({ profile, isEditable }: ProfileIntroCardProps)
         {isEditable && (
           <>
             <AddProfileSectionModal />
-            <Link href={`${pathname}/update-intro`}>
+            <Link href={`${pathname}/update-intro`} scroll={false}>
               <Button size='icon' variant='ghost'>
                 <Edit />
               </Button>
@@ -46,7 +46,13 @@ export function ProfileIntroCard({ profile, isEditable }: ProfileIntroCardProps)
           {profile.first_name} {profile.last_name}
         </h1>
         <h2 className='text-base font-light'>{profile.headline}</h2>
-        <Link href={`${pathname}/contact-info`} className='font-medium text-blue-500 hover:underline underline-offset-1'>Contact Info</Link>
+        <Link
+          href={`${pathname}/contact-info`}
+          scroll={false}
+          className='font-medium text-blue-500 underline-offset-1 hover:underline'
+        >
+          Contact Info
+        </Link>
       </div>
     </div>
   )
