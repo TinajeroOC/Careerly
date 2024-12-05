@@ -12,7 +12,7 @@ import {
 
 export function SignUpCard() {
   return (
-    <Card className='border-0 shadow-none md:border md:shadow-sm'>
+    <Card>
       <CardHeader>
         <CardTitle>Sign Up</CardTitle>
         <CardDescription>Elevate your career with Careerly</CardDescription>

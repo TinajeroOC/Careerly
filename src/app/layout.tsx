@@ -25,7 +25,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
   return (
     <html lang='en' suppressHydrationWarning>
-      <body className={GeistSans.className}>
+      <body className={ny(GeistSans.className, 'bg-secondary', 'dark:bg-secondary/50')}>
         <ThemeProvider
           attribute='class'
           defaultTheme='system'
@@ -33,7 +33,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           disableTransitionOnChange
         >
           <AppNavbar user={userResponse.data.user} />
-          <div className='mx-auto w-full max-w-screen-2xl'>{children}</div>
+          <div className='mx-auto w-full max-w-screen-xl'>{children}</div>
           <Toaster />
         </ThemeProvider>
       </body>

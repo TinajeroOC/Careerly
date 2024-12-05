@@ -42,7 +42,7 @@ export function UserDropdown({ user }: UserDropdownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className='h-10 w-10 rounded-md'>
+        <Avatar className='h-10 w-10 cursor-pointer rounded-md'>
           <AvatarImage src={user.user_metadata.picture_url} />
           <AvatarFallback className='select-none rounded-md'>
             {user.user_metadata.first_name[0].toUpperCase()}
@@ -52,7 +52,7 @@ export function UserDropdown({ user }: UserDropdownProps) {
       <DropdownMenuContent align='end' className='min-w-64'>
         <DropdownMenuLabel>
           <div className='flex items-center gap-3 py-1.5 text-left text-sm'>
-            <Avatar className='h-12 w-12 rounded-md'>
+            <Avatar className='h-12 w-12'>
               <AvatarImage src={user.user_metadata.picture_url} />
               <AvatarFallback className='select-none'>
                 {user.user_metadata.first_name[0].toUpperCase()}

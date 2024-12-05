@@ -28,7 +28,7 @@ export function AppNavbar({ user }: AppNavbarProps) {
 
   return (
     <nav className='sticky top-0 z-40 h-auto w-full border-b bg-background'>
-      <header className='relative z-40 mx-auto flex h-16 w-full max-w-screen-2xl flex-row flex-nowrap items-center justify-between gap-4 px-4 md:px-8'>
+      <header className='relative z-40 mx-auto flex h-16 w-full max-w-screen-xl flex-row flex-nowrap items-center justify-between gap-4 px-4 md:px-8'>
         <div className='flex flex-grow basis-0 flex-row flex-nowrap items-center justify-start gap-1'>
           <Logo disableText={isDesktop ? false : true} />
         </div>
