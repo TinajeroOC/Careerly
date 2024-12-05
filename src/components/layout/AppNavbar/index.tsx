@@ -1,7 +1,7 @@
 'use client'
 
 import { User } from '@supabase/supabase-js'
-import { User2Icon } from 'lucide-react'
+import { Globe, User2Icon } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -35,7 +35,18 @@ export function AppNavbar({ user }: AppNavbarProps) {
         <div className='flex flex-grow items-center justify-end gap-2'>
           <ThemeDropdown />
           {user ? (
-            <UserDropdown user={user} />
+            <>
+              <Button
+                size='icon'
+                variant='outline'
+                asChild
+              >
+                <Link href='/network'>
+                  <Globe className='h-4 w-4' />
+                </Link>
+              </Button>
+              <UserDropdown user={user} />
+            </>
           ) : (
             <>
               <Button
