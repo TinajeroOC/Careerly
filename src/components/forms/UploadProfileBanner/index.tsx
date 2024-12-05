@@ -92,10 +92,10 @@ export function UploadProfileBanner({ userId, url, disabled = false }: UploadPro
             alt='Banner'
             width={1200}
             height={600}
-            className='h-30 w-full rounded-t-lg md:h-60'
+            className='h-32 w-full rounded-t-lg md:h-60 object-cover'
           />
         ) : (
-          <div className='grid h-20 w-full rounded-t-lg border-b bg-accent md:h-60' />
+          <div className='grid h-32 w-full rounded-t-lg border-b bg-accent md:h-60' />
         )}
       </div>
     )
@@ -109,12 +109,12 @@ export function UploadProfileBanner({ userId, url, disabled = false }: UploadPro
           alt='Banner'
           width={1200}
           height={600}
-          className='h-30 w-full cursor-pointer rounded-t-lg md:h-60'
+          className='h-32 w-full cursor-pointer rounded-t-lg md:h-60 object-cover'
           onClick={onClick}
         />
       ) : (
         <div
-          className='grid h-20 w-full cursor-pointer place-items-center rounded-t-lg border-b transition-colors duration-150 hover:bg-secondary md:h-60'
+          className='grid h-32 w-full cursor-pointer place-items-center rounded-t-lg border-b transition-colors duration-150 hover:bg-secondary md:h-60'
           onClick={onClick}
         >
           {uploading ? <Loader2Icon className='animate-spin' /> : <Plus />}

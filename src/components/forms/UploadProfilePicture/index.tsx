@@ -98,7 +98,7 @@ export function UploadProfilePicture({
             height={400}
             width={400}
             alt='Picture'
-            className='h-24 w-24 rounded-full border-4 border-background md:h-36 md:w-36'
+            className='h-24 w-24 rounded-full border-4 border-background md:h-36 md:w-36 object-cover'
           />
         ) : (
           <div className='grid h-24 w-24 rounded-full border-4 border-background bg-accent md:h-36 md:w-36' />
@@ -115,7 +115,7 @@ export function UploadProfilePicture({
           height={400}
           width={400}
           alt='Picture'
-          className='h-24 w-24 cursor-pointer rounded-full border-4 border-background md:h-36 md:w-36'
+          className='h-24 w-24 cursor-pointer rounded-full border-4 border-background md:h-36 md:w-36 object-cover'
           onClick={onClick}
         />
       ) : (
