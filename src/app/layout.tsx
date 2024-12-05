@@ -8,6 +8,7 @@ import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { Toaster } from '@/components/ui/Toaster'
 import { siteConfig } from '@/config/site'
 import { createClient } from '@/lib/supabase/server'
+import { ny } from '@/lib/utils'
 
 interface RootLayoutProps {
   readonly children: React.ReactNode

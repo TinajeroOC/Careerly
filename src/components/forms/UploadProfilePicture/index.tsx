@@ -1,5 +1,4 @@
 'use client'
-
 import { Loader2Icon, Plus } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -10,17 +9,25 @@ import { createClient } from '@/lib/supabase/client'
 
 interface UploadProfilePicture {
   userId: string
-  url: string
+  url?: string | null
   className?: string
+  disabled?: boolean
 }
 
-export function UploadProfilePicture({ userId, url, className }: UploadProfilePicture) {
+export function UploadProfilePicture({
+  userId,
+  url,
+  className,
+  disabled = false,
+}: UploadProfilePicture) {
   const [uploading, setUploading] = useState<boolean>(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
   const { toast } = useToast()
 
   async function uploadProfilePicture(event: React.ChangeEvent<HTMLInputElement>) {
+    if (disabled) return
+
     try {
       setUploading(true)
 
@@ -77,7 +84,27 @@ export function UploadProfilePicture({ userId, url, className }: UploadProfilePi
   }
 
   const onClick = () => {
-    fileInputRef.current?.click()
+    if (!disabled) {
+      fileInputRef.current?.click()
+    }
+  }
+
+  if (disabled) {
+    return (
+      <div className={className}>
+        {url ? (
+          <Image
+            src={url}
+            height={400}
+            width={400}
+            alt='Picture'
+            className='h-24 w-24 rounded-full border-4 border-background md:h-36 md:w-36'
+          />
+        ) : (
+          <div className='grid h-24 w-24 rounded-full border-4 border-background bg-accent md:h-36 md:w-36' />
+        )}
+      </div>
+    )
   }
 
   return (
@@ -88,12 +115,12 @@ export function UploadProfilePicture({ userId, url, className }: UploadProfilePi
           height={400}
           width={400}
           alt='Picture'
-          className='h-28 w-28 cursor-pointer rounded-full border bg-background'
+          className='h-24 w-24 cursor-pointer rounded-full border-4 border-background md:h-36 md:w-36'
           onClick={onClick}
         />
       ) : (
         <div
-          className='grid h-28 w-28 cursor-pointer place-items-center rounded-full border bg-background transition-colors duration-150 hover:bg-secondary'
+          className='grid h-24 w-24 cursor-pointer place-items-center rounded-full border bg-background transition-colors duration-150 hover:bg-secondary md:h-36 md:w-36'
           onClick={onClick}
         >
           {uploading ? <Loader2Icon className='animate-spin' /> : <Plus />}

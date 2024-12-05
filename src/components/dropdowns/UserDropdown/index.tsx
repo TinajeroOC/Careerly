@@ -2,7 +2,7 @@
 
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { User } from '@supabase/supabase-js'
-import { LogOut, Settings } from 'lucide-react'
+import { LogOut, UserIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -67,10 +67,10 @@ export function UserDropdown({ user }: UserDropdownProps) {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <Link href='/settings'>
+        <Link href={`/ly/${user.user_metadata.vanity_url}`}>
           <DropdownMenuItem className='hover:cursor-pointer'>
-            <Settings />
-            Settings
+            <UserIcon />
+            Profile
           </DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator />

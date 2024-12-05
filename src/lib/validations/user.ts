@@ -1,18 +1,18 @@
 import { z } from 'zod'
 
-export const personalInformationSchema = z.object({
+export const profileIntroSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
+  headline: z.string().max(120, { message: 'Headline must not exceed 120 characters' }),
 })
 
-export type PersonalInformationInput = z.infer<typeof personalInformationSchema>
+export type ProfileIntroInput = z.infer<typeof profileIntroSchema>
 
-export const profileSchema = z.object({
-  headline: z.string().max(120, { message: 'Headline must not exceed 120 characters' }),
+export const profileAboutSchema = z.object({
   about: z.string().max(2000, { message: 'About must not exceed 2000 characters' }),
 })
 
-export type ProfileInput = z.infer<typeof profileSchema>
+export type ProfileAboutInput = z.infer<typeof profileAboutSchema>
 
 export const profilePictureSchema = z.object({
   profilePicture: z

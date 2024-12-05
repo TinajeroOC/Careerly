@@ -4,15 +4,17 @@ import { revalidatePath } from 'next/cache'
 
 import { createClient } from '@/lib/supabase/server'
 
-export type UpdatePersonalInformationData = {
+export type UpdateProfileIntroData = {
   firstName: string
   lastName: string
+  headline?: string
 }
 
-export async function updatePersonalInformation({
+export async function updateProfileIntro({
   firstName,
   lastName,
-}: UpdatePersonalInformationData) {
+  headline,
+}: UpdateProfileIntroData) {
   const supabase = await createClient()
 
   const { data: getUser, error: getUserError } = await supabase.auth.getUser()
@@ -29,40 +31,43 @@ export async function updatePersonalInformation({
 
   if (updateUserError) throw updateUserError
 
-  const { error: updateProfileError } = await supabase
+  const { data: updateProfile, error: updateProfileError } = await supabase
     .from('profiles')
     .update({
       first_name: firstName,
       last_name: lastName,
+      headline,
     })
     .eq('id', getUser.user?.id)
+    .select()
+    .maybeSingle()
 
   if (updateProfileError) throw updateProfileError
 
-  revalidatePath('/', 'layout')
+  revalidatePath(`/ly/${updateProfile?.vanity_url}`, 'page')
 }
 
-export type UpdateProfileData = {
-  headline?: string | null
-  about?: string | null
+export type UpdateProfileAboutData = {
+  about?: string
 }
 
-export async function updateProfile({ headline, about }: UpdateProfileData) {
+export async function updateProfileAbout({ about }: UpdateProfileAboutData) {
   const supabase = await createClient()
 
   const { data: getUser, error: getUserError } = await supabase.auth.getUser()
 
   if (getUserError) throw getUserError
 
-  const { error: updateProfileError } = await supabase
+  const { data: updateProfile, error: updateProfileError } = await supabase
     .from('profiles')
     .update({
-      headline,
       about,
     })
     .eq('id', getUser.user?.id)
+    .select()
+    .maybeSingle()
 
   if (updateProfileError) throw updateProfileError
 
-  revalidatePath('/', 'layout')
+  revalidatePath(`/ly/${updateProfile?.vanity_url}`, 'page')
 }

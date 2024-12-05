@@ -1,5 +1,4 @@
 'use client'
-
 import { Loader2Icon, Plus } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -10,16 +9,19 @@ import { createClient } from '@/lib/supabase/client'
 
 interface UploadProfileBanner {
   userId: string
-  url: string
+  url: string | null
+  disabled?: boolean
 }
 
-export function UploadProfileBanner({ userId, url }: UploadProfileBanner) {
+export function UploadProfileBanner({ userId, url, disabled = false }: UploadProfileBanner) {
   const [uploading, setUploading] = useState<boolean>(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
   const { toast } = useToast()
 
   async function uploadProfileBanner(event: React.ChangeEvent<HTMLInputElement>) {
+    if (disabled) return
+
     try {
       setUploading(true)
 
@@ -76,7 +78,27 @@ export function UploadProfileBanner({ userId, url }: UploadProfileBanner) {
   }
 
   const onClick = () => {
-    fileInputRef.current?.click()
+    if (!disabled) {
+      fileInputRef.current?.click()
+    }
+  }
+
+  if (disabled) {
+    return (
+      <div>
+        {url ? (
+          <Image
+            src={url}
+            alt='Banner'
+            width={1200}
+            height={600}
+            className='h-30 w-full rounded-t-lg md:h-60'
+          />
+        ) : (
+          <div className='grid h-20 w-full rounded-t-lg border-b bg-accent md:h-60' />
+        )}
+      </div>
+    )
   }
 
   return (
@@ -85,14 +107,14 @@ export function UploadProfileBanner({ userId, url }: UploadProfileBanner) {
         <Image
           src={url}
           alt='Banner'
-          width={800}
-          height={400}
-          className='h-40 w-full cursor-pointer rounded-lg border'
+          width={1200}
+          height={600}
+          className='h-30 w-full cursor-pointer rounded-t-lg md:h-60'
           onClick={onClick}
         />
       ) : (
         <div
-          className='grid h-40 w-full cursor-pointer place-items-center rounded-lg border transition-colors duration-150 hover:bg-secondary'
+          className='grid h-20 w-full cursor-pointer place-items-center rounded-t-lg border-b transition-colors duration-150 hover:bg-secondary md:h-60'
           onClick={onClick}
         >
           {uploading ? <Loader2Icon className='animate-spin' /> : <Plus />}

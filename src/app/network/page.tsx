@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { createClient } from "@/lib/supabase/client";
 
 type Profile = {
@@ -99,7 +100,7 @@ export default function EnhancedSupabaseQueryPage() {
     };
 
     fetchData();
-  }, []);
+  }, [supabase]);
 
   // Handle connection requests
   const handleConnect = async (userId: string) => {

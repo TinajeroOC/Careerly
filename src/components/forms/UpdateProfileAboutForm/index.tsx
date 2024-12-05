@@ -2,10 +2,11 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircleAlert, Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { updateProfile } from '@/actions/user'
+import { updateProfileAbout } from '@/actions/user'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import {
@@ -14,22 +15,17 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/Form'
-import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { createClient } from '@/lib/supabase/client'
-import { ProfileInput, profileSchema } from '@/lib/validations/user'
+import { ProfileAboutInput, profileAboutSchema } from '@/lib/validations/user'
 
-interface UpdateProfileFormProps {
-  setModalOpen: (isOpen: boolean) => void
-}
-
-export function UpdateProfileForm({ setModalOpen }: UpdateProfileFormProps) {
+export function UpdateProfileAboutForm() {
   const [loading, setLoading] = useState<boolean>(false)
-  const form = useForm<ProfileInput>({
-    resolver: zodResolver(profileSchema),
+  const router = useRouter()
+  const form = useForm<ProfileAboutInput>({
+    resolver: zodResolver(profileAboutSchema),
     defaultValues: async () => {
       const supabase = createClient()
 
@@ -45,21 +41,20 @@ export function UpdateProfileForm({ setModalOpen }: UpdateProfileFormProps) {
       if (getUserProfileError) throw getUserProfileError
 
       return {
-        headline: getUserProfile[0].headline,
         about: getUserProfile[0].about,
       }
     },
   })
 
-  const onSubmit: SubmitHandler<ProfileInput> = async (data) => {
+  const onSubmit: SubmitHandler<ProfileAboutInput> = async (data) => {
     try {
       setLoading(true)
-      await updateProfile(data)
+      await updateProfileAbout(data)
+      router.back()
     } catch (error) {
       form.setError('root', { message: (error as Error).message })
     } finally {
       setLoading(false)
-      setModalOpen(false)
     }
   }
 
@@ -74,42 +69,26 @@ export function UpdateProfileForm({ setModalOpen }: UpdateProfileFormProps) {
         {form.formState.errors.root && (
           <Alert variant='destructive'>
             <CircleAlert className='h-4 w-4' />
-            <AlertTitle>There was an issue updating your account</AlertTitle>
+            <AlertTitle>There was an issue updating your profile</AlertTitle>
             <AlertDescription>{form.formState.errors.root.message}</AlertDescription>
           </Alert>
         )}
-        <FormField
-          name='headline'
-          defaultValue=''
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Headline</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-              <FormDescription className='text-right'>{`${form.watch('headline')?.length ?? 0}/120`}</FormDescription>
-            </FormItem>
-          )}
-        />
         <FormField
           name='about'
           defaultValue=''
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>About</FormLabel>
               <FormControl>
-                <Textarea {...field} className='min-h-40' />
+                <Textarea {...field} className='min-h-40' placeholder='About' />
               </FormControl>
               <FormMessage />
               <FormDescription className='text-right'>{`${form.watch('about')?.length ?? 0}/2000`}</FormDescription>
             </FormItem>
           )}
         />
-        <div className='pt-2'>
-          <Button disabled={loading} type='submit' className='w-full'>
+        <div className='flex justify-end pt-2'>
+          <Button disabled={loading} type='submit'>
             {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
             Save
           </Button>
