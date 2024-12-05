@@ -20,6 +20,7 @@ import {
   ModalTitle,
   ModalTrigger,
 } from '@/components/ui/Modal'
+import { Separator } from '@/components/ui/Separator'
 
 export function AddProfileSectionModal() {
   const [open, setOpen] = useState<boolean>(false)
@@ -40,13 +41,21 @@ export function AddProfileSectionModal() {
           <Accordion type='multiple' defaultValue={['core']}>
             <AccordionItem value='core'>
               <AccordionTrigger>Core</AccordionTrigger>
-              <AccordionContent>
+              <AccordionContent className='flex flex-col gap-4'>
                 <Link
                   href={`${pathname}/update-about`}
                   onClick={() => setOpen(false)}
                   className='w-full'
                 >
                   Add About
+                </Link>
+                <Separator />
+                <Link
+                  href={`${pathname}/update-contact-info`}
+                  onClick={() => setOpen(false)}
+                  className='w-full'
+                >
+                  Add Contact Info
                 </Link>
               </AccordionContent>
             </AccordionItem>

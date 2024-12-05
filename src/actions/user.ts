@@ -40,11 +40,11 @@ export async function updateProfileIntro({
     })
     .eq('id', getUser.user?.id)
     .select()
-    .maybeSingle()
+    .single()
 
   if (updateProfileError) throw updateProfileError
 
-  revalidatePath(`/ly/${updateProfile?.vanity_url}`, 'page')
+  revalidatePath(`/ly/${updateProfile.vanity_url}`, 'page')
 }
 
 export type UpdateProfileAboutData = {
@@ -65,9 +65,42 @@ export async function updateProfileAbout({ about }: UpdateProfileAboutData) {
     })
     .eq('id', getUser.user?.id)
     .select()
-    .maybeSingle()
+    .single()
 
   if (updateProfileError) throw updateProfileError
 
-  revalidatePath(`/ly/${updateProfile?.vanity_url}`, 'page')
+  revalidatePath(`/ly/${updateProfile.vanity_url}`, 'page')
+}
+
+export type UpdateProfileContactInfoData = {
+  publicEmail?: string
+  publicPhoneNumber?: string
+  publicWebsiteUrl?: string
+}
+
+export async function updateProfileContactInfo({
+  publicEmail,
+  publicPhoneNumber,
+  publicWebsiteUrl,
+}: UpdateProfileContactInfoData) {
+  const supabase = await createClient()
+
+  const { data: getUser, error: getUserError } = await supabase.auth.getUser()
+
+  if (getUserError) throw getUserError
+
+  const { data: updateProfile, error: updateProfileError } = await supabase
+    .from('profiles')
+    .update({
+      public_email: publicEmail,
+      public_phone_number: publicPhoneNumber,
+      public_website_url: publicWebsiteUrl,
+    })
+    .eq('id', getUser.user?.id)
+    .select()
+    .single()
+
+  if (updateProfileError) throw updateProfileError
+
+  revalidatePath(`/ly/${updateProfile.vanity_url}`, 'page')
 }

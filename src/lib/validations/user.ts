@@ -8,6 +8,14 @@ export const profileIntroSchema = z.object({
 
 export type ProfileIntroInput = z.infer<typeof profileIntroSchema>
 
+export const profileContactInfoSchema = z.object({
+  publicEmail: z.string().email(),
+  publicPhoneNumber: z.string().max(50, { message: 'Phone number must not exceed 50 characters' }),
+  publicWebsiteUrl: z.string().url(),
+})
+
+export type ProfileContactInfoInput = z.infer<typeof profileContactInfoSchema>
+
 export const profileAboutSchema = z.object({
   about: z.string().max(2000, { message: 'About must not exceed 2000 characters' }),
 })

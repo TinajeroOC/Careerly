@@ -46,6 +46,7 @@ export function ProfileIntroCard({ profile, isEditable }: ProfileIntroCardProps)
           {profile.first_name} {profile.last_name}
         </h1>
         <h2 className='text-base font-light'>{profile.headline}</h2>
+        <Link href={`${pathname}/contact-info`} className='font-medium text-blue-500 hover:underline underline-offset-1'>Contact Info</Link>
       </div>
     </div>
   )

@@ -42,6 +42,9 @@ export type Database = {
           id: string
           last_name: string
           picture_url: string | null
+          public_email: string
+          public_phone_number: string
+          public_website_url: string
           vanity_url: string
         }
         Insert: {
@@ -52,6 +55,9 @@ export type Database = {
           id: string
           last_name?: string
           picture_url?: string | null
+          public_email?: string
+          public_phone_number?: string
+          public_website_url?: string
           vanity_url?: string
         }
         Update: {
@@ -62,6 +68,9 @@ export type Database = {
           id?: string
           last_name?: string
           picture_url?: string | null
+          public_email?: string
+          public_phone_number?: string
+          public_website_url?: string
           vanity_url?: string
         }
         Relationships: []

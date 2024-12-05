@@ -8,3 +8,8 @@ export function ny(...inputs: ClassValue[]) {
 export function generateRandomNumbers(): string {
   return Array.from({ length: 10 }, () => Math.floor(Math.random() * 10)).join('')
 }
+
+export function removeUrlProtocol(url: string): string {
+  const protocolRegex = /^(?:https?:\/\/)/i
+  return url.replace(protocolRegex, '')
+}
