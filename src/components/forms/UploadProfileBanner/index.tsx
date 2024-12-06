@@ -36,9 +36,9 @@ export function UploadProfileBanner({ userId, url, disabled = false }: UploadPro
 
       const supabase = createClient()
 
-      const { data: getUser, error: getUserError } = await supabase.auth.getUser()
+      const { data: user, error: userError } = await supabase.auth.getUser()
 
-      if (getUserError) throw getUserError
+      if (userError) throw userError
 
       const { data: upload, error: uploadError } = await supabase.storage
         .from(process.env.NEXT_PUBLIC_MEDIA_BUCKET_NAME)
@@ -53,7 +53,7 @@ export function UploadProfileBanner({ userId, url, disabled = false }: UploadPro
       const { error: updateProfileError } = await supabase
         .from('profiles')
         .update({ banner_url: bannerUrl.publicUrl })
-        .eq('id', getUser.user?.id)
+        .eq('id', user.user?.id)
 
       if (updateProfileError) throw updateProfileError
 
@@ -92,7 +92,7 @@ export function UploadProfileBanner({ userId, url, disabled = false }: UploadPro
             alt='Banner'
             width={1200}
             height={600}
-            className='h-32 w-full rounded-t-lg md:h-60 object-cover'
+            className='h-32 w-full rounded-t-lg object-cover md:h-60'
           />
         ) : (
           <div className='grid h-32 w-full rounded-t-lg border-b bg-accent md:h-60' />
@@ -109,7 +109,7 @@ export function UploadProfileBanner({ userId, url, disabled = false }: UploadPro
           alt='Banner'
           width={1200}
           height={600}
-          className='h-32 w-full cursor-pointer rounded-t-lg md:h-60 object-cover'
+          className='h-32 w-full cursor-pointer rounded-t-lg object-cover md:h-60'
           onClick={onClick}
         />
       ) : (

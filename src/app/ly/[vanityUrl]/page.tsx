@@ -1,4 +1,5 @@
 import { ProfileAboutCard } from '@/components/cards/ProfileAboutCard'
+import { ProfileExperienceCard } from '@/components/cards/ProfileExperienceCard'
 import { ProfileIntroCard } from '@/components/cards/ProfileIntroCard'
 import { createClient } from '@/lib/supabase/server'
 
@@ -11,11 +12,13 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 
   const supabase = await createClient()
 
-  const { data: user } = await supabase.auth.getUser()
+  const { data: user, error: userError } = await supabase.auth.getUser()
+
+  if (userError) throw userError
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select()
+    .select('*, profile_experiences(*)')
     .eq('vanity_url', vanityUrl)
     .maybeSingle()
 
@@ -27,6 +30,12 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
     <main className='my-8 flex w-full flex-col gap-4 px-4 md:px-8'>
       <ProfileIntroCard profile={profile} isEditable={isProfileOwner} />
       {profile.about && <ProfileAboutCard profile={profile} isEditable={isProfileOwner} />}
+      {profile.profile_experiences.length > 0 && (
+        <ProfileExperienceCard
+          experiences={profile.profile_experiences}
+          isEditable={isProfileOwner}
+        />
+      )}
     </main>
   )
 }

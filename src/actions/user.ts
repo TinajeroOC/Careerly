@@ -3,23 +3,25 @@
 import { revalidatePath } from 'next/cache'
 
 import { createClient } from '@/lib/supabase/server'
+import {
+  ProfileAboutInput,
+  profileAboutSchema,
+  ProfileContactInfoInput,
+  profileContactInfoSchema,
+  ProfileExperienceInput,
+  profileExperienceSchema,
+  ProfileIntroInput,
+  profileIntroSchema,
+} from '@/lib/validations/user'
 
-export type UpdateProfileIntroData = {
-  firstName: string
-  lastName: string
-  headline?: string
-}
+export async function updateProfileIntro(data: ProfileIntroInput) {
+  const { firstName, lastName, headline } = profileIntroSchema.parse(data)
 
-export async function updateProfileIntro({
-  firstName,
-  lastName,
-  headline,
-}: UpdateProfileIntroData) {
   const supabase = await createClient()
 
-  const { data: getUser, error: getUserError } = await supabase.auth.getUser()
+  const { data: user, error: userError } = await supabase.auth.getUser()
 
-  if (getUserError) throw getUserError
+  if (userError) throw userError
 
   const { error: updateUserError } = await supabase.auth.updateUser({
     data: {
@@ -38,7 +40,7 @@ export async function updateProfileIntro({
       last_name: lastName,
       headline,
     })
-    .eq('id', getUser.user?.id)
+    .eq('id', user.user?.id)
     .select()
     .single()
 
@@ -47,23 +49,21 @@ export async function updateProfileIntro({
   revalidatePath(`/ly/${updateProfile.vanity_url}`, 'page')
 }
 
-export type UpdateProfileAboutData = {
-  about?: string
-}
+export async function updateProfileAbout(data: ProfileAboutInput) {
+  const { about } = profileAboutSchema.parse(data)
 
-export async function updateProfileAbout({ about }: UpdateProfileAboutData) {
   const supabase = await createClient()
 
-  const { data: getUser, error: getUserError } = await supabase.auth.getUser()
+  const { data: user, error: userError } = await supabase.auth.getUser()
 
-  if (getUserError) throw getUserError
+  if (userError) throw userError
 
   const { data: updateProfile, error: updateProfileError } = await supabase
     .from('profiles')
     .update({
       about,
     })
-    .eq('id', getUser.user?.id)
+    .eq('id', user.user?.id)
     .select()
     .single()
 
@@ -72,22 +72,14 @@ export async function updateProfileAbout({ about }: UpdateProfileAboutData) {
   revalidatePath(`/ly/${updateProfile.vanity_url}`, 'page')
 }
 
-export type UpdateProfileContactInfoData = {
-  publicEmail?: string
-  publicPhoneNumber?: string
-  publicWebsiteUrl?: string
-}
+export async function updateProfileContactInfo(data: ProfileContactInfoInput) {
+  const { publicEmail, publicPhoneNumber, publicWebsiteUrl } = profileContactInfoSchema.parse(data)
 
-export async function updateProfileContactInfo({
-  publicEmail,
-  publicPhoneNumber,
-  publicWebsiteUrl,
-}: UpdateProfileContactInfoData) {
   const supabase = await createClient()
 
-  const { data: getUser, error: getUserError } = await supabase.auth.getUser()
+  const { data: user, error: userError } = await supabase.auth.getUser()
 
-  if (getUserError) throw getUserError
+  if (userError) throw userError
 
   const { data: updateProfile, error: updateProfileError } = await supabase
     .from('profiles')
@@ -96,11 +88,130 @@ export async function updateProfileContactInfo({
       public_phone_number: publicPhoneNumber,
       public_website_url: publicWebsiteUrl,
     })
-    .eq('id', getUser.user?.id)
+    .eq('id', user.user?.id)
     .select()
     .single()
 
   if (updateProfileError) throw updateProfileError
 
   revalidatePath(`/ly/${updateProfile.vanity_url}`, 'page')
+}
+
+export async function addProfileExperience(data: ProfileExperienceInput) {
+  const {
+    companyName,
+    employmentType,
+    location,
+    locationType,
+    activeRole,
+    startDate,
+    endDate,
+    title,
+    description,
+  } = profileExperienceSchema.parse(data)
+
+  const supabase = await createClient()
+
+  const { data: user, error: userError } = await supabase.auth.getUser()
+
+  if (userError) throw userError
+
+  const { data: profile, error: getUserProfileError } = await supabase
+    .from('profiles')
+    .select()
+    .eq('id', user.user?.id)
+    .single()
+
+  if (getUserProfileError) throw getUserProfileError
+
+  const { error: insertProfileExperienceError } = await supabase
+    .from('profile_experiences')
+    .insert({
+      user_id: user.user.id,
+      company_name: companyName,
+      employment_type: employmentType,
+      location,
+      location_type: locationType,
+      active_role: activeRole,
+      start_date: startDate.from.toISOString(),
+      end_date: activeRole ? null : endDate.from.toISOString(),
+      title,
+      description,
+    })
+
+  if (insertProfileExperienceError) throw insertProfileExperienceError
+
+  revalidatePath(`/ly/${profile?.vanity_url}`, 'page')
+}
+
+export async function updateProfileExperience(id: string, data: ProfileExperienceInput) {
+  const {
+    companyName,
+    employmentType,
+    location,
+    locationType,
+    activeRole,
+    startDate,
+    endDate,
+    title,
+    description,
+  } = profileExperienceSchema.parse(data)
+
+  const supabase = await createClient()
+
+  const { data: user, error: userError } = await supabase.auth.getUser()
+
+  if (userError) throw userError
+
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select()
+    .eq('id', user.user?.id)
+    .single()
+
+  if (profileError) throw profileError
+
+  const { error: profileExperienceError } = await supabase
+    .from('profile_experiences')
+    .update({
+      company_name: companyName,
+      employment_type: employmentType,
+      location,
+      location_type: locationType,
+      active_role: activeRole,
+      start_date: startDate.from.toISOString(),
+      end_date: endDate.from.toISOString(),
+      title,
+      description,
+    })
+    .eq('id', id)
+
+  if (profileExperienceError) throw profileExperienceError
+
+  revalidatePath(`/ly/${profile?.vanity_url}`, 'page')
+}
+
+export async function deleteProfileExperience(id: string) {
+  const supabase = await createClient()
+
+  const { data: user, error: userError } = await supabase.auth.getUser()
+
+  if (userError) throw userError
+
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select()
+    .eq('id', user.user?.id)
+    .single()
+
+  if (profileError) throw profileError
+
+  const { error: profileExperienceError } = await supabase
+    .from('profile_experiences')
+    .delete()
+    .eq('id', id)
+
+  if (profileExperienceError) throw profileExperienceError
+
+  revalidatePath(`/ly/${profile?.vanity_url}`, 'page')
 }

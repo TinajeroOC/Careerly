@@ -57,6 +57,14 @@ export function AddProfileSectionModal() {
                 >
                   Add Contact Info
                 </Link>
+                <Separator />
+                <Link
+                  href={`${pathname}/add-experience`}
+                  onClick={() => setOpen(false)}
+                  className='w-full'
+                >
+                  Add Experience
+                </Link>
               </AccordionContent>
             </AccordionItem>
           </Accordion>

@@ -29,19 +29,19 @@ export function UpdateProfileAboutForm() {
     defaultValues: async () => {
       const supabase = createClient()
 
-      const { data: getUser, error: getUserError } = await supabase.auth.getUser()
+      const { data: user, error: userError } = await supabase.auth.getUser()
 
-      if (getUserError) throw getUserError
+      if (userError) throw userError
 
-      const { data: getUserProfile, error: getUserProfileError } = await supabase
+      const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select()
-        .eq('id', getUser.user?.id)
+        .eq('id', user.user?.id)
 
-      if (getUserProfileError) throw getUserProfileError
+      if (profileError) throw profileError
 
       return {
-        about: getUserProfile[0].about,
+        about: profile[0].about,
       }
     },
   })

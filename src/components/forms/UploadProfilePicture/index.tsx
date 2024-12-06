@@ -42,9 +42,9 @@ export function UploadProfilePicture({
 
       const supabase = createClient()
 
-      const { data: getUser, error: getUserError } = await supabase.auth.getUser()
+      const { data: user, error: userError } = await supabase.auth.getUser()
 
-      if (getUserError) throw getUserError
+      if (userError) throw userError
 
       const { data: upload, error: uploadError } = await supabase.storage
         .from(process.env.NEXT_PUBLIC_MEDIA_BUCKET_NAME)
@@ -59,7 +59,7 @@ export function UploadProfilePicture({
       const { error: updateProfileError } = await supabase
         .from('profiles')
         .update({ picture_url: pictureUrl.publicUrl })
-        .eq('id', getUser.user?.id)
+        .eq('id', user.user?.id)
 
       if (updateProfileError) throw updateProfileError
 
@@ -98,7 +98,7 @@ export function UploadProfilePicture({
             height={400}
             width={400}
             alt='Picture'
-            className='h-24 w-24 rounded-full border-4 border-background md:h-36 md:w-36 object-cover'
+            className='h-24 w-24 rounded-full border-4 border-background object-cover md:h-36 md:w-36'
           />
         ) : (
           <div className='grid h-24 w-24 rounded-full border-4 border-background bg-accent md:h-36 md:w-36' />
@@ -115,7 +115,7 @@ export function UploadProfilePicture({
           height={400}
           width={400}
           alt='Picture'
-          className='h-24 w-24 cursor-pointer rounded-full border-4 border-background md:h-36 md:w-36 object-cover'
+          className='h-24 w-24 cursor-pointer rounded-full border-4 border-background object-cover md:h-36 md:w-36'
           onClick={onClick}
         />
       ) : (

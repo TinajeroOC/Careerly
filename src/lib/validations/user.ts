@@ -22,6 +22,55 @@ export const profileAboutSchema = z.object({
 
 export type ProfileAboutInput = z.infer<typeof profileAboutSchema>
 
+export const profileExperienceSchema = z
+  .object({
+    companyName: z
+      .string()
+      .min(1)
+      .max(120, { message: 'Company name must not exceed 120 characters' }),
+    employmentType: z.enum([
+      'Full-time',
+      'Part-time',
+      'Internship',
+      'Contract',
+      'Seasonal',
+      'Freelance',
+      'Self-employed',
+    ]),
+    location: z.string().min(1).max(120, { message: 'Location must not exceed 250 characters' }),
+    locationType: z.enum(['On-site', 'Hybrid', 'Remote']),
+    activeRole: z.boolean(),
+    startDate: z.object({
+      from: z.date(),
+      to: z.date(),
+    }),
+    endDate: z.object({
+      from: z.date(),
+      to: z.date(),
+    }),
+    title: z.string().min(1).max(120, { message: 'Title must not exceed 120 characters' }),
+    description: z.string().max(2000, { message: 'Description must not exceed 2000 characters' }),
+  })
+  .superRefine(({ startDate, endDate, activeRole }, context) => {
+    if (startDate.to.toISOString() > new Date().toISOString()) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['startDate'],
+        message: 'Start date cannot be later than today',
+      })
+    }
+
+    if (!activeRole && endDate.to.toISOString() < startDate.to.toISOString()) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['endDate'],
+        message: 'End date cannot be earlier than start date',
+      })
+    }
+  })
+
+export type ProfileExperienceInput = z.infer<typeof profileExperienceSchema>
+
 export const profilePictureSchema = z.object({
   profilePicture: z
     .instanceof(File)
