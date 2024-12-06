@@ -36,11 +36,7 @@ export function AppNavbar({ user }: AppNavbarProps) {
           <ThemeDropdown />
           {user ? (
             <>
-              <Button
-                size='icon'
-                variant='outline'
-                asChild
-              >
+              <Button size='icon' variant='outline' asChild>
                 <Link href='/network'>
                   <Globe className='h-4 w-4' />
                 </Link>
