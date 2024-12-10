@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 
 import { X } from 'lucide-react'
@@ -22,26 +23,25 @@ export function MediaModal({ url, type, isOpen, onClose }: MediaModalProps) {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80" onClick={onClose}>
+    <div
+      className='fixed inset-0 z-50 flex items-center justify-center bg-black/80'
+      onClick={onClose}
+    >
       <button
-        className="absolute right-4 top-4 rounded-full bg-black/50 p-2 text-white hover:bg-black/70"
+        className='absolute right-4 top-4 rounded-full bg-black/50 p-2 text-white hover:bg-black/70'
         onClick={onClose}
       >
-        <X className="h-6 w-6" />
+        <X className='h-6 w-6' />
       </button>
-      <div className="max-h-[90vh] max-w-[90vw] overflow-auto" onClick={(e) => e.stopPropagation()}>
+      <div className='max-h-[90vh] max-w-[90vw] overflow-auto' onClick={(e) => e.stopPropagation()}>
         {type === 'image' ? (
           <img
             src={url}
-            alt=""
-            className="h-auto w-auto max-h-[90vh] max-w-[90vw] object-contain"
+            alt=''
+            className='h-auto max-h-[90vh] w-auto max-w-[90vw] object-contain'
           />
         ) : (
-          <video
-            src={url}
-            controls
-            className="h-auto w-auto max-h-[90vh] max-w-[90vw]"
-          />
+          <video src={url} controls className='h-auto max-h-[90vh] w-auto max-w-[90vw]' />
         )}
       </div>
     </div>

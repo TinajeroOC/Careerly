@@ -200,11 +200,9 @@ export default function EnhancedSupabaseQueryPage() {
   }
 
   return (
-    <div className='container mx-auto p-4'>
+    <main className='my-8 flex w-full flex-col gap-4 px-4 md:px-8'>
       <h1 className='mb-4 text-2xl font-bold'>Connections</h1>
-
       {error && <p className='mb-4 text-red-500'>{error}</p>}
-
       {/* Connected Users */}
       <section className='mb-8'>
         <h2 className='mb-2 text-xl font-semibold'>Connected Users</h2>
@@ -217,7 +215,7 @@ export default function EnhancedSupabaseQueryPage() {
                   {conn.user.headline && `- ${conn.user.headline}`}
                 </div>
                 <button
-                  className='rounded-md bg-red-500 px-3 py-1 text-white'
+                  className='my-1 rounded-md bg-red-500 px-3 py-1 text-white'
                   onClick={() => handleRemove(conn.id)}
                 >
                   Remove
@@ -243,7 +241,7 @@ export default function EnhancedSupabaseQueryPage() {
                 </div>
                 {conn.isSender ? (
                   <button
-                    className='rounded-md bg-gray-500 px-3 py-1 text-white'
+                    className='my-1 rounded-md bg-gray-500 px-3 py-1 text-white'
                     onClick={() => handleRejectOrCancel(conn.id)}
                   >
                     Cancel Request
@@ -251,13 +249,13 @@ export default function EnhancedSupabaseQueryPage() {
                 ) : (
                   <div className='space-x-2'>
                     <button
-                      className='rounded-md bg-green-500 px-3 py-1 text-white'
+                      className='my-1 rounded-md bg-green-500 px-3 py-1 text-white'
                       onClick={() => handleApprove(conn.id)}
                     >
                       Accept
                     </button>
                     <button
-                      className='rounded-md bg-red-500 px-3 py-1 text-white'
+                      className='my-1 rounded-md bg-red-500 px-3 py-1 text-white'
                       onClick={() => handleRejectOrCancel(conn.id)}
                     >
                       Reject
@@ -283,7 +281,7 @@ export default function EnhancedSupabaseQueryPage() {
                   {user.first_name} {user.last_name} {user.headline && `- ${user.headline}`}
                 </div>
                 <button
-                  className='rounded-md bg-blue-500 px-3 py-1 text-white'
+                  className='my-1 rounded-md bg-blue-500 px-3 py-1 text-white'
                   onClick={() => handleConnect(user.id)}
                 >
                   Connect
@@ -295,6 +293,6 @@ export default function EnhancedSupabaseQueryPage() {
           <p>No users to connect with.</p>
         )}
       </section>
-    </div>
+    </main>
   )
 }

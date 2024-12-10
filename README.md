@@ -2,7 +2,7 @@
 
 ## Overview
 
-Careerly is a professional networking platform that allows individuals to connect with professionals and advance their careers.
+Careerly is a professional social media platform that allows users to create posts, manage their profile, and network with others.
 
 ## Group Members
 

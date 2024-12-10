@@ -12,9 +12,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 
   const supabase = await createClient()
 
-  const { data: user, error: userError } = await supabase.auth.getUser()
-
-  if (userError) throw userError
+  const { data: user } = await supabase.auth.getUser()
 
   const { data: profile } = await supabase
     .from('profiles')
