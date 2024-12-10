@@ -1,9 +1,13 @@
-export default function FeedPage() {
+import { Feed } from '@/components/feed/post-feed'
+import { createClient } from '@/lib/supabase/server'
+
+export default async function FeedPage() {
+  const supabase = await createClient()
+  const { data: { session } } = await supabase.auth.getSession()
+
   return (
-    <div className='my-8 flex w-full flex-col px-4 md:px-8'>
-      <main className='w-full'>
-        <h1>Careerly</h1>
-      </main>
+    <div className="container mx-auto max-w-2xl py-6">
+      <Feed user={session?.user ?? null} />
     </div>
   )
 }
